@@ -33,7 +33,7 @@ O material bruto (205 posts, 578 fotos, `dados.json` com legendas, folhas de con
 8. **Guests e viagens:** o site cita só o guest em Leiria (Barão Tattoo Studio, agosto de 2025). Os destaques Portugal, Trindade, Marbella e RIO não foram lidos (a API devolveu erro 500).
 9. **Cuidados e sinal:** não há política de sinal, cancelamento nem cuidados escritos no perfil. Se ela tiver, entram no pedido.
 10. **Domínio:** a definir. Ao trocar, ajustar `og:image`/`og:url` no `index.html` e tirar o `noindex` e o `robots.txt`.
-11. **Cache:** CSS e JS usam `?v=1`. Ao mudar, subir o número no `index.html`.
+11. **Cache:** CSS usa `?v=2` e JS `?v=1`. Ao mudar, subir o número no `index.html`.
 
 ---
 
