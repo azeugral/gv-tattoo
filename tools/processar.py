@@ -47,8 +47,6 @@ OBRAS = [
     ('120_1', 'floral', 'Orquídeas', .5),
 ]
 EXTRA = [  # (post_foto, nome, w, h, desvio)
-    ('004_1', 'hero', 1600, 2000, .5),
-    ('004_1', 'hero-m', 960, 1200, .5),
     ('027_1', 'sobre-1', 900, 1125, .3),
     ('012_1', 'sobre-2', 720, 900, .35),
     ('020_11', 'proc-desenho', 720, 900, .5),
@@ -77,8 +75,7 @@ def main():
     for i, (k, *_r, dy) in enumerate(OBRAS):
         salvar(recortar(k, 720, 900, dy), f'obras/{i + 1:02d}.webp')
     for k, nome, w, h, dy in EXTRA:
-        salvar(recortar(k, w, h, dy), nome + '.webp', 84 if nome.startswith('hero') else 80)
-    # og: foto do hero à direita, cetim à esquerda (o texto entra em tools/og.py se precisar)
+        salvar(recortar(k, w, h, dy), nome + '.webp', 80)
     print(len(OBRAS), 'obras')
 
 if __name__ == '__main__':

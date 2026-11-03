@@ -1,7 +1,7 @@
 """og.jpg (1200x630, prévia do link) e apple-touch-icon.png. Fonte Rozha One em ../_ref.
 Uso: python tools/og.py"""
 import os
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont
 
 AQUI = os.path.dirname(os.path.abspath(__file__)); SITE = os.path.dirname(AQUI)
 FONTE = os.path.join(SITE, '..', '_ref', 'RozhaOne-Regular.ttf')
@@ -18,10 +18,8 @@ def estrela(d, cx, cy, r, cor):
 
 def main():
     og = Image.new('RGB', (1200, 630), CETIM)
-    foto = ImageOps.fit(Image.open(os.path.join(SITE, 'assets', 'img', 'hero.webp')).convert('RGB'), (640, 630), centering=(.5, .45))
-    m = Image.linear_gradient('L').rotate(90).resize((640, 630))   # transparente à esquerda
-    m = m.point(lambda v: min(255, v * 3))
-    og.paste(foto, (560, 0), m)
+    mandala = Image.open(os.path.join(SITE, 'assets', 'img', 'mandala-a.webp')).convert('RGB').resize((600, 600), Image.LANCZOS)
+    og.paste(mandala, (620, 15))      # pôster da mandala em pontos (tools/gerar_video.py), já no cetim
     d = ImageDraw.Draw(og)
     f1 = ImageFont.truetype(FONTE, 78); f2 = ImageFont.truetype('arialbd.ttf', 22); f3 = ImageFont.truetype('arial.ttf', 26)
     d.text((80, 120), 'TATUADORA EM LISBOA', font=f2, fill=GRAF)

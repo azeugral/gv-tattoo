@@ -25,18 +25,46 @@
   function rolou() { topo.classList.toggle('solido', window.scrollY > 40); }
   window.addEventListener('scroll', rolou, { passive: true }); rolou();
 
-  /* hero: canvas no desktop, vídeo no toque, pôster parado com movimento reduzido */
+  /* hero: mandala da GV em pontos (WebGL no desktop, MP4 no toque, pôster parado com movimento reduzido) */
   var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fino = matchMedia('(hover: hover) and (pointer: fine) and (min-width: 901px)').matches;
-  var cv = document.getElementById('tinta'), vd = document.getElementById('tinta-video');
-  function video() {
-    cv.remove(); vd.src = 'assets/video/tinta.mp4'; vd.load();
-    var p = vd.play(); if (p && p.catch) p.catch(function () {});
-    vd.addEventListener('playing', function () { vd.classList.add('tocando'); }, { once: true });
+  var toque = matchMedia('(hover: none), (pointer: coarse)').matches || innerWidth < 1001;
+  var palco = document.getElementById('palco'), canvas = document.getElementById('mandala-canvas'), video = document.getElementById('mandala-video'), conta = document.getElementById('conta');
+  var CORES = { tinta: '#121110', cinza: '#6f6a64', verm: '#8e1c1c' };
+  function fmt(n) { return Math.round(n).toLocaleString('pt-PT'); }
+  function usarVideo() {
+    if (reduz) return;
+    video.src = 'assets/video/mandala.mp4';
+    video.addEventListener('playing', function () { palco.classList.add('em-video'); }, { once: true });
+    var p = video.play(); if (p && p.catch) p.catch(function () {});
+    new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) video.play().catch(function () {}); else video.pause(); }); }).observe(palco);
   }
-  if (reduz) { cv.remove(); vd.remove(); }
-  else if (fino && window.tintaHero) { vd.remove(); tintaHero(cv, function () { cv.remove(); }); requestAnimationFrame(function () { cv.classList.add('tocando'); }); }
-  else video();
+  function usarWebGL(bin) {
+    var T;
+    try { T = pontosGL(canvas, bin, CORES); } catch (e) { T = null; }
+    if (!T) return usarVideo();
+    var visivel = true, t0 = null, tPausa = 0, rodando = false, raf;
+    function medir() {
+      var r = palco.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2), w = Math.round(r.width * d);
+      if (canvas.width !== w) { canvas.width = w; canvas.height = w; }
+    }
+    function quadro(agora) {
+      if (t0 === null) t0 = agora - tPausa * 1000;
+      var t = (agora - t0) / 1000, s = T.desenhar(t, 1, true);
+      conta.textContent = fmt(Math.min(s.rev, 1) * T.n);
+      if (visivel) raf = requestAnimationFrame(quadro); else { rodando = false; tPausa = t; t0 = null; }
+    }
+    function iniciar() { if (!rodando) { rodando = true; raf = requestAnimationFrame(quadro); } }
+    medir();
+    addEventListener('resize', function () { medir(); if (!rodando) T.desenhar(tPausa, 1, true); });
+    canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); cancelAnimationFrame(raf); palco.classList.remove('ao-vivo'); conta.textContent = fmt(T.n); });
+    new IntersectionObserver(function (es) { visivel = es[0].isIntersecting; if (visivel) iniciar(); }).observe(palco);
+    conta.textContent = '0'; palco.classList.add('ao-vivo'); iniciar();
+  }
+  if (reduz) { /* pôster parado */ }
+  else if (toque) { addEventListener('load', usarVideo); }
+  else {
+    fetch('assets/pontos.bin').then(function (r) { if (!r.ok) throw 0; return r.arrayBuffer(); }).then(usarWebGL).catch(usarVideo);
+  }
   requestAnimationFrame(function () { document.body.classList.add('pronto'); });
 
   /* trabalhos */
