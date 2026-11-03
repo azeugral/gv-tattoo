@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GV Tattoo · Ornamental e projetos personalizados em Lisboa</title>
+<meta name="description" content="GV, tatuadora brasileira em Lisboa. Ornamental, mandala, floral e dark ornament desenhados à medida do corpo, no Artfakt Tattoo. Pede o teu orçamento.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#eeece8">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GV Tattoo · Lisboa">
+<meta property="og:description" content="Ornamental e projetos personalizados, desenhados à medida do corpo.">
+<meta property="og:image" content="https://azeugral.github.io/gv-tattoo/og.jpg?v=1">
+<meta property="og:url" content="https://azeugral.github.io/gv-tattoo/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/hero.webp" media="(min-width: 901px)">
+<link rel="preload" as="image" href="assets/img/hero-m.webp" media="(max-width: 900px)">
+<link rel="stylesheet" href="assets/css/site.css?v=1">
+</head>
+<body>
+
+<header class="topo" id="topo">
+  <a class="marca" href="#inicio" aria-label="GV Tattoo, início">GV<span>Tattoo</span></a>
+  <nav class="menu" id="menu" aria-label="Secções">
+    <a href="#trabalhos">Trabalhos</a>
+    <a href="#projeto">Projeto</a>
+    <a href="#sobre">A GV</a>
+    <a href="#estudio">Estúdio</a>
+    <a class="menu-marcar" href="#marcar">Pedir orçamento</a>
+  </nav>
+  <button class="menu-botao" id="menu-botao" aria-expanded="false" aria-controls="menu"><span></span><span></span><span class="sr">Menu</span></button>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="hero-foto">
+    <picture>
+      <source media="(max-width: 900px)" srcset="assets/img/hero-m.webp">
+      <img src="assets/img/hero.webp" alt="Ornamental preto na mão, fotografado sobre cetim branco" width="1600" height="2000" fetchpriority="high">
+    </picture>
+  </div>
+  <canvas class="hero-tinta" id="tinta" aria-hidden="true"></canvas>
+  <video class="hero-video" id="tinta-video" muted loop playsinline preload="none" aria-hidden="true" poster=""></video>
+
+  <div class="hero-texto">
+    <p class="hero-lugar"><span class="estrela" aria-hidden="true">✦</span> Tatuadora em Lisboa</p>
+    <h1>
+      <span class="linha"><span>Ornamental</span></span>
+      <span class="linha"><span>desenhado para</span></span>
+      <span class="linha"><span>o teu corpo.</span></span>
+    </h1>
+    <p class="hero-sub">Sou a GV. Cada peça nasce para a anatomia de quem a vai usar: pé, mão, pescoço ou um braço inteiro.</p>
+    <div class="hero-botoes">
+      <a class="botao" href="#marcar">Pedir orçamento <span class="estrela" aria-hidden="true">✦</span></a>
+      <a class="botao botao-linha" href="#trabalhos">Ver trabalhos</a>
+    </div>
+    <ul class="hero-info">
+      <li><b>Artfakt Tattoo</b> Alcântara, Lisboa</li>
+      <li><b>Agenda</b> aberta</li>
+      <li><b>Estilos</b> ornamental, mandala, floral, dark</li>
+    </ul>
+  </div>
+</section>
+
+<section class="secao trabalhos" id="trabalhos">
+  <div class="cabeca">
+    <h2>Trabalhos</h2>
+    <p>Fotos tiradas logo depois da sessão, no cetim branco de sempre.</p>
+  </div>
+  <div class="filtros" role="group" aria-label="Filtrar trabalhos">
+    <button class="ativo" data-f="todos">Todos</button>
+    <button data-f="ornamental">Ornamental</button>
+    <button data-f="mandala">Mandala</button>
+    <button data-f="floral">Floral</button>
+    <button data-f="dark">Dark</button>
+  </div>
+  <ul class="grade" id="grade"></ul>
+  <div class="mais"><button class="botao botao-linha" id="ver-mais">Ver mais trabalhos</button></div>
+</section>
+
+<section class="secao projeto" id="projeto">
+  <div class="cabeca">
+    <h2>Como nasce um projeto</h2>
+    <p>Não trabalho com moldes prontos. O desenho é feito para a zona do corpo, para as tatuagens que já tens à volta e para o que queres contar.</p>
+  </div>
+  <div class="etapas-fotos">
+    <figure class="revela"><img src="assets/img/proc-desenho.webp" alt="Desenho de uma mandala ornamental no ecrã" width="720" height="900" loading="lazy"><figcaption>O desenho</figcaption></figure>
+    <figure class="revela"><img src="assets/img/proc-decalque.webp" alt="Decalque de mandala recortado, pronto para a pele" width="720" height="900" loading="lazy"><figcaption>O decalque</figcaption></figure>
+    <figure class="revela"><img src="assets/img/proc-sessao.webp" alt="Perna com ornamental e floral a meio do fechamento" width="720" height="900" loading="lazy"><figcaption>Na pele</figcaption></figure>
+  </div>
+  <ol class="etapas">
+    <li class="revela"><h3>Conversa</h3><p>Envias a ideia, a zona do corpo e uma foto do local. Se já tens tatuagens perto, mostra-as: o encaixe parte daí.</p></li>
+    <li class="revela"><h3>Desenho à medida</h3><p>Desenho por cima da tua anatomia, para a peça acompanhar o corpo em vez de ficar só pousada nele.</p></li>
+    <li class="revela"><h3>Decalque e ajuste</h3><p>No dia, o decalque vai à pele e ajustamos juntos até assentar bem, de pé e em movimento.</p></li>
+    <li class="revela"><h3>Sessões</h3><p>Peças grandes fazem-se por etapas. Um fechamento de braço chegou a doze sessões, sem pressa.</p></li>
+    <li class="revela"><h3>Cicatrização</h3><p>Recebes os cuidados por escrito e acompanho a recuperação até a pele sarar.</p></li>
+  </ol>
+  <blockquote class="citacao revela">
+    <p>A tatuagem tem de ser uma arte bonita, mas também tem de fazer sentido no corpo.</p>
+    <cite>GV</cite>
+  </blockquote>
+</section>
+
+<section class="secao sobre" id="sobre">
+  <div class="sobre-fotos">
+    <img class="revela" src="assets/img/sobre-1.webp" alt="Retrato da GV" width="900" height="1125" loading="lazy">
+    <img class="revela sobre-2" src="assets/img/sobre-2.webp" alt="A GV com uma tela pintada por ela, junto à Ponte 25 de Abril" width="720" height="900" loading="lazy">
+  </div>
+  <div class="sobre-texto">
+    <h2>A GV</h2>
+    <p>Comecei a tatuar em 2021, em São Paulo. Em 2024 foram 285 sessões, quase todas de projetos pensados do zero.</p>
+    <p>Em fevereiro de 2026 mudei-me para Lisboa e hoje atendo no Artfakt Tattoo. O ornamental é o estilo que mais me prende: mandalas geométricas, florais e dark ornament que encaixam no corpo e o vestem.</p>
+    <p>Fora da pele, pinto a acrílico sobre tela. A primeira em solo português foi feita em julho.</p>
+    <dl class="numeros">
+      <div><dt>2021</dt><dd>a tatuar desde</dd></div>
+      <div><dt>285</dt><dd>sessões em 2024</dd></div>
+      <div><dt>12</dt><dd>sessões no maior fechamento de braço</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="secao estudio" id="estudio">
+  <div class="estudio-caixa revela">
+    <h2>Artfakt Tattoo</h2>
+    <p>Atendo no Artfakt Tattoo, em Alcântara, Lisboa. A morada completa e a hora seguem com a confirmação da marcação.</p>
+    <ul class="estudio-lista">
+      <li><b>Onde</b> Alcântara, Lisboa</li>
+      <li><b>Marcações</b> por WhatsApp, com orçamento antes</li>
+      <li><b>Fora de Lisboa</b> guest em Leiria em 2025; novas datas no Instagram</li>
+    </ul>
+    <div class="estudio-links">
+      <a class="botao botao-linha" href="https://www.google.com/maps/search/Artfakt+Tattoo+Lisboa" target="_blank" rel="noopener">Ver no mapa</a>
+      <a class="link" href="https://instagram.com/artfakt.tattoo" target="_blank" rel="noopener">@artfakt.tattoo</a>
+    </div>
+  </div>
+</section>
+
+<section class="secao marcar" id="marcar">
+  <div class="cabeca">
+    <h2>Pedir orçamento</h2>
+    <p>Preenche o que souberes. A mensagem fica pronta, copiada, e o WhatsApp da GV abre a seguir: é só colar e enviar com as fotos do local.</p>
+  </div>
+  <form class="pedido" id="pedido" novalidate>
+    <label class="campo"><span>O teu nome</span><input name="nome" autocomplete="name" required></label>
+    <fieldset class="campo">
+      <legend>Zona do corpo</legend>
+      <div class="opcoes" data-nome="zona">
+        <label><input type="radio" name="zona" value="Braço"><span>Braço</span></label>
+        <label><input type="radio" name="zona" value="Antebraço"><span>Antebraço</span></label>
+        <label><input type="radio" name="zona" value="Mão"><span>Mão</span></label>
+        <label><input type="radio" name="zona" value="Pescoço"><span>Pescoço</span></label>
+        <label><input type="radio" name="zona" value="Peito"><span>Peito</span></label>
+        <label><input type="radio" name="zona" value="Costas"><span>Costas</span></label>
+        <label><input type="radio" name="zona" value="Perna"><span>Perna</span></label>
+        <label><input type="radio" name="zona" value="Pé"><span>Pé</span></label>
+        <label><input type="radio" name="zona" value="Outra"><span>Outra</span></label>
+      </div>
+    </fieldset>
+    <fieldset class="campo">
+      <legend>Já tens tatuagens nessa zona?</legend>
+      <div class="opcoes" data-nome="pele">
+        <label><input type="radio" name="pele" value="Não, pele livre"><span>Não</span></label>
+        <label><input type="radio" name="pele" value="Sim, quero que encaixe"><span>Sim, quero encaixar</span></label>
+        <label><input type="radio" name="pele" value="Sim, quero ressignificar uma antiga"><span>Quero ressignificar uma antiga</span></label>
+      </div>
+    </fieldset>
+    <label class="campo"><span>Tamanho aproximado</span><input name="tamanho" placeholder="ex.: 15 cm, ou o antebraço todo"></label>
+    <label class="campo campo-largo"><span>A ideia</span><textarea name="ideia" rows="4" placeholder="Estilo, elementos, significado, referências que gostas"></textarea></label>
+    <label class="campo campo-largo"><span>Disponibilidade</span><input name="datas" placeholder="ex.: sábados, a partir de dezembro"></label>
+    <div class="previa campo-largo" aria-live="polite">
+      <span>A tua mensagem</span>
+      <pre id="previa"></pre>
+    </div>
+    <div class="pedido-fim campo-largo">
+      <button class="botao" type="submit">Copiar e abrir o WhatsApp <span class="estrela" aria-hidden="true">✦</span></button>
+      <a class="link" href="https://ig.me/m/_gvtattoo" target="_blank" rel="noopener">Prefiro falar pela DM</a>
+      <p class="aviso" id="aviso" hidden>Mensagem copiada. Cola-a na conversa que abriu.</p>
+    </div>
+  </form>
+</section>
+</main>
+
+<footer class="rodape">
+  <a class="marca" href="#inicio">GV<span>Tattoo</span></a>
+  <p>Ornamental e projetos personalizados · Lisboa</p>
+  <p><a href="https://instagram.com/_gvtattoo" target="_blank" rel="noopener">@_gvtattoo</a> · <a href="https://wa.me/message/CWVF7GXPBZ7ZL1" target="_blank" rel="noopener">WhatsApp</a></p>
+  <p class="assina">Site por <a href="https://lrgz.com.br" target="_blank" rel="noopener">L R G Z</a></p>
+</footer>
+
+<div class="caixa-foto" id="caixa" hidden role="dialog" aria-modal="true" aria-label="Trabalho ampliado">
+  <button class="caixa-fechar" id="caixa-fechar" aria-label="Fechar">×</button>
+  <button class="caixa-seta ant" id="caixa-ant" aria-label="Anterior">‹</button>
+  <figure><img id="caixa-img" alt=""><figcaption id="caixa-leg"></figcaption></figure>
+  <button class="caixa-seta seg" id="caixa-seg" aria-label="Seguinte">›</button>
+</div>
+
+<script src="assets/js/tinta.js?v=1"></script>
+<script src="assets/js/site.js?v=1"></script>
+</body>
+</html>
