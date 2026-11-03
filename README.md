@@ -7,7 +7,7 @@ Endereço da prévia: https://azeugral.github.io/gv-tattoo/ (com `noindex` e `ro
 ## Como está montado
 
 - **Identidade:** tirada das fotos dela, sempre tatuagem preta sobre cetim branco. Cetim `#eeece8`, tinta `#121110` e um vermelho `#8e1c1c` só em detalhes (os pontinhos vermelhos dos ornamentais dela). Títulos em Rozha One, texto em Schibsted Grotesk. A estrela ✦ é a mesma da bio.
-- **Hero:** a "primeira mandalinha geométrica feita à mão" do destaque Art's dela (caderno de 2023, `../_ref/hl/arts/arts_05.jpg`) refeita em 26 000 pontos que se formam em espiral, anel por anel, e depois giram meia pétala e assentam de novo (mesmo motor do site da Ana Dias, `assets/js/pontos.js`). **Abertura:** ao entrar no site, a mandala aparece sozinha no meio da tela e se forma em 4,2 s com o contador a correr, depois desliza para o lugar dela enquanto o menu e o texto entram. Um clique, tecla ou rolagem pula a abertura, e quem entra por um link com `#` (ex.: `#marcar`) não a vê. No desktop tudo roda ao vivo em WebGL; no celular a abertura é `assets/video/abertura.mp4` (0,24 MB), que emenda no laço. No celular e no tablet entra `assets/video/mandala.mp4` (laço sem emenda). Com movimento reduzido fica o pôster `assets/img/mandala-a.webp`.
+- **Hero:** a "primeira mandalinha geométrica feita à mão" do destaque Art's dela (caderno de 2023, `../_ref/hl/arts/arts_05.jpg`) refeita em 26 000 pontos que se formam em espiral, anel por anel, e depois giram meia pétala e assentam de novo (mesmo motor do site da Ana Dias, `assets/js/pontos.js`). **Ao entrar no site** a mandala forma-se no próprio hero em 4,2 s, com o contador a correr, e segue em laço. No desktop tudo roda ao vivo em WebGL; no celular a formação é `assets/video/abertura.mp4` (0,24 MB), que emenda no laço. No celular e no tablet entra `assets/video/mandala.mp4` (laço sem emenda). Com movimento reduzido fica o pôster `assets/img/mandala-a.webp`.
 - **Seções:** trabalhos (36 peças em grade 4:5 com filtro e foto ampliada), como nasce um projeto (desenho, decalque, sessões), a GV, estúdio e pedido de orçamento.
 - **Pedido:** o formulário monta a mensagem, copia para a área de transferência e abre o link do WhatsApp da bio (`wa.me/message/CWVF7GXPBZ7ZL1`). Esse tipo de link não aceita texto pronto, por isso a mensagem é copiada para ela colar. Com o número em mãos, dá para trocar por `wa.me/<número>?text=` e a mensagem já entra escrita.
 
@@ -34,7 +34,7 @@ O material bruto (205 posts, 578 fotos, `dados.json` com legendas, folhas de con
 8. **Guests e viagens:** o site cita só o guest em Leiria (Barão Tattoo Studio, agosto de 2025). Os destaques Portugal, Trindade, Marbella e RIO não foram lidos. O destaque Art's foi aberto (de lá veio a mandala do hero), então a visualização de @lrgz.sites aparece para ela.
 9. **Cuidados e sinal:** não há política de sinal, cancelamento nem cuidados escritos no perfil. Se ela tiver, entram no pedido.
 10. **Domínio:** a definir. Ao trocar, ajustar `og:image`/`og:url` no `index.html` e tirar o `noindex` e o `robots.txt`.
-11. **Cache:** CSS usa `?v=4`, `site.js` `?v=3`, `pontos.js` `?v=2` e og `?v=2`. Ao mudar, subir o número no `index.html`.
+11. **Cache:** CSS usa `?v=5`, `site.js` `?v=4`, `pontos.js` `?v=2` e og `?v=2`. Ao mudar, subir o número no `index.html`.
 
 ---
 
