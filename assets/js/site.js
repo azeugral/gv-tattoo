@@ -25,18 +25,67 @@
   function rolou() { topo.classList.toggle('solido', window.scrollY > 40); }
   window.addEventListener('scroll', rolou, { passive: true }); rolou();
 
-  /* hero: mandala da GV em pontos (WebGL no desktop, MP4 no toque, pôster parado com movimento reduzido) */
+  /* hero: mandala da GV em pontos (WebGL no desktop, MP4 no toque, pôster parado com movimento reduzido).
+     Abertura: a mandala forma-se sozinha no meio da tela (ABRE s) e depois desliza para o hero;
+     um clique, tecla ou rolagem pula a abertura e a mandala acaba de se formar já no lugar. */
   var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var toque = matchMedia('(hover: none), (pointer: coarse)').matches || innerWidth < 1001;
   var palco = document.getElementById('palco'), canvas = document.getElementById('mandala-canvas'), video = document.getElementById('mandala-video'), conta = document.getElementById('conta');
-  var CORES = { tinta: '#121110', cinza: '#6f6a64', verm: '#8e1c1c' };
+  var fig = document.querySelector('.hero-mandala'), raiz = document.documentElement;
+  var abre = raiz.classList.contains('abrindo') && window.scrollY < 10, ABRE = 4.2;
+  var CORES = { tinta: '#121110', cinza: '#6f6a64', verm: '#8e1c1c', formar: abre ? ABRE : 0 };
   function fmt(n) { return Math.round(n).toLocaleString('pt-PT'); }
+  function revelado(t) { var x = Math.min(t / ABRE, 1); return 1 - Math.pow(1 - x, 1.6); }   // mesma curva do pontos.js
+
+  var abriu = false, limite, PULAR = ['click', 'wheel', 'touchstart', 'keydown'];
+  function centrar() {
+    /* põe o palco no meio da tela: a figura fica no lugar no layout e só o transform muda */
+    fig.style.transform = '';
+    var r = fig.getBoundingClientRect(), p = palco.getBoundingClientRect();
+    var lado = Math.min(innerWidth * .86, innerHeight * .7, 760), k = lado / p.width;
+    var tx = innerWidth / 2 - lado / 2 - r.left - k * (p.left - r.left);
+    var ty = innerHeight * .47 - lado / 2 - r.top - k * (p.top - r.top);
+    fig.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + k + ')';
+  }
+  function entrar() {
+    if (abriu) return; abriu = true; clearTimeout(limite);
+    PULAR.forEach(function (e) { removeEventListener(e, entrar); });
+    removeEventListener('resize', centrar);
+    fig.classList.add('voando'); fig.style.transform = '';
+    raiz.classList.remove('abrindo');
+    document.body.classList.add('pronto');
+    setTimeout(function () { fig.classList.remove('voando'); }, 1500);
+  }
+  function comecou() { clearTimeout(limite); limite = setTimeout(entrar, (ABRE + .5) * 1000); }
+  if (abre) {
+    centrar(); addEventListener('resize', centrar);
+    PULAR.forEach(function (e) { addEventListener(e, entrar, { passive: true }); });
+    limite = setTimeout(entrar, 2600);           // nada começou a tempo: entra o site normal
+    conta.textContent = '0';
+  } else {
+    raiz.classList.remove('abrindo');
+    requestAnimationFrame(function () { document.body.classList.add('pronto'); });
+  }
+
+  function emLaco() {
+    video.src = 'assets/video/mandala.mp4'; video.loop = true;
+    var p = video.play(); if (p && p.catch) p.catch(function () {});
+  }
   function usarVideo() {
     if (reduz) return;
-    video.src = 'assets/video/mandala.mp4';
-    video.addEventListener('playing', function () { palco.classList.add('em-video'); }, { once: true });
-    var p = video.play(); if (p && p.catch) p.catch(function () {});
+    video.addEventListener('playing', function () { palco.classList.add('em-video'); requestAnimationFrame(function () { palco.classList.remove('troca'); }); });
     new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) video.play().catch(function () {}); else video.pause(); }); }).observe(palco);
+    if (!abre) return emLaco();
+    /* abertura no toque: vídeo curto da formação; no fim troca para o laço (o último quadro é o pôster) */
+    video.loop = false; video.src = 'assets/video/abertura.mp4';
+    video.addEventListener('playing', comecou, { once: true });
+    video.addEventListener('ended', function () { palco.classList.add('troca'); palco.classList.remove('em-video'); emLaco(); }, { once: true });
+    (function contar() {
+      if (video.loop) return;
+      if (video.currentTime > 0) conta.textContent = fmt(revelado(video.currentTime) * 26000);
+      requestAnimationFrame(contar);
+    })();
+    var p = video.play(); if (p && p.catch) p.catch(function () { entrar(); emLaco(); });
   }
   function usarWebGL(bin) {
     var T;
@@ -48,7 +97,7 @@
       if (canvas.width !== w) { canvas.width = w; canvas.height = w; }
     }
     function quadro(agora) {
-      if (t0 === null) t0 = agora - tPausa * 1000;
+      if (t0 === null) { t0 = agora - tPausa * 1000; if (abre && !tPausa) comecou(); }
       var t = (agora - t0) / 1000, s = T.desenhar(t, 1, true);
       conta.textContent = fmt(Math.min(s.rev, 1) * T.n);
       if (visivel) raf = requestAnimationFrame(quadro); else { rodando = false; tPausa = t; t0 = null; }
@@ -56,16 +105,15 @@
     function iniciar() { if (!rodando) { rodando = true; raf = requestAnimationFrame(quadro); } }
     medir();
     addEventListener('resize', function () { medir(); if (!rodando) T.desenhar(tPausa, 1, true); });
-    canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); cancelAnimationFrame(raf); palco.classList.remove('ao-vivo'); conta.textContent = fmt(T.n); });
+    canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); cancelAnimationFrame(raf); palco.classList.remove('ao-vivo'); conta.textContent = fmt(T.n); entrar(); });
     new IntersectionObserver(function (es) { visivel = es[0].isIntersecting; if (visivel) iniciar(); }).observe(palco);
     conta.textContent = '0'; palco.classList.add('ao-vivo'); iniciar();
   }
   if (reduz) { /* pôster parado */ }
-  else if (toque) { addEventListener('load', usarVideo); }
+  else if (toque) { if (document.readyState === 'complete' || abre) usarVideo(); else addEventListener('load', usarVideo); }
   else {
     fetch('assets/pontos.bin').then(function (r) { if (!r.ok) throw 0; return r.arrayBuffer(); }).then(usarWebGL).catch(usarVideo);
   }
-  requestAnimationFrame(function () { document.body.classList.add('pronto'); });
 
   /* trabalhos */
   var grade = document.getElementById('grade'), vm = document.getElementById('ver-mais'), filtro = 'todos', mostrando = POR_VEZ, lista = [];

@@ -51,6 +51,7 @@
 
   window.pontosGL = function (canvas, bin, opc) {
     opc = opc || {};
+    var formar = opc.formar || FORMAR;                       // a abertura do site forma mais depressa
     var gl = canvas.getContext('webgl', { antialias: false, premultipliedAlpha: true, alpha: true, preserveDrawingBuffer: !!opc.preserveDrawingBuffer });
     if (!gl) return null;
     function sh(tipo, src) { var s = gl.createShader(tipo); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(s); return s; }
@@ -79,10 +80,10 @@
 
     /* estado no instante t: quanto já foi pontilhado e quanto da troca A->B */
     function estado(t, comFormacao) {
-      if (comFormacao && t < FORMAR) {
-        var x = t / FORMAR; return { rev: 1 - Math.pow(1 - x, 1.6), mix: 0 };
+      if (comFormacao && t < formar) {
+        var x = t / formar; return { rev: 1 - Math.pow(1 - x, 1.6), mix: 0 };
       }
-      var c = ((comFormacao ? t - FORMAR : t) % CICLO + CICLO) % CICLO, m;
+      var c = ((comFormacao ? t - formar : t) % CICLO + CICLO) % CICLO, m;
       if (c < SEGURA_A) m = 0;
       else if (c < SEGURA_A + TROCA) m = (c - SEGURA_A) / TROCA;
       else if (c < SEGURA_A + TROCA + SEGURA_B) m = 1;
@@ -91,7 +92,7 @@
     }
 
     return {
-      n: n, ciclo: CICLO, formar: FORMAR, estado: estado,
+      n: n, ciclo: CICLO, formar: formar, estado: estado,
       /* t: segundos; dpr: densidade da tela; comFormacao: se o t=0 começa com o papel vazio */
       desenhar: function (t, dpr, comFormacao) {
         var w = canvas.width, h = canvas.height, s = estado(t, comFormacao);

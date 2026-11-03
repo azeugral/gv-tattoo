@@ -48,7 +48,7 @@ p { margin: 0 0 1em; }
 .topo {
   position: fixed; inset: 0 0 auto; z-index: 20; height: 72px; padding: 0 var(--gutter);
   display: flex; align-items: center; justify-content: space-between;
-  transition: background .4s var(--ease), box-shadow .4s var(--ease);
+  transition: background .4s var(--ease), box-shadow .4s var(--ease), opacity .9s var(--ease);
 }
 .topo::before { content: ''; position: absolute; inset: 0 0 -40px; z-index: -1; background: linear-gradient(180deg, rgba(238, 236, 232, .9), rgba(238, 236, 232, 0)); transition: opacity .4s var(--ease); pointer-events: none; }
 .topo.solido::before { opacity: 0; }
@@ -77,6 +77,14 @@ p { margin: 0 0 1em; }
 .mandala-conta { margin-top: 14px; text-align: center; font-size: 13px; letter-spacing: .04em; color: var(--cinza); opacity: 0; transition: opacity 1s var(--ease) .9s; }
 .mandala-conta b { font-weight: 600; color: var(--tinta); font-variant-numeric: tabular-nums; }
 .pronto .mandala-palco { opacity: 1; transform: none; }
+/* abertura: a mandala forma-se sozinha no meio da tela e depois desliza para o lugar dela */
+.abrindo, .abrindo body { overflow: hidden; }
+.abrindo .topo { opacity: 0; pointer-events: none; }
+.hero-mandala { transform-origin: 0 0; position: relative; z-index: 3; }
+.hero-mandala.voando { transition: transform 1.4s var(--ease); }
+.abrindo .mandala-palco, .abrindo .mandala-conta { opacity: 1; transform: none; transition: none; }
+.abrindo .mandala-poster, .troca .mandala-poster, .troca .mandala-video { transition: none; }
+.abrindo .mandala-poster { opacity: 0; }
 .pronto .mandala-conta { opacity: 1; }
 .hero-texto { position: relative; z-index: 2; grid-column: 1; grid-row: 1; align-self: center; padding: 110px 0 56px var(--gutter); max-width: 780px; }
 .hero-lugar { font-size: 14px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--grafite); margin-bottom: 22px; }

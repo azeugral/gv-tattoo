@@ -1,5 +1,6 @@
 """Renderiza o hero de pontos (assets/js/pontos.js) num Edge headless:
 - assets/video/mandala.mp4: laço sem emenda A -> B -> A (720x720, crf 33; celular e tablet);
+- assets/video/abertura.mp4: a formação da abertura do site (4,2 s + 0,5 s parada no último quadro, igual ao 1º do laço);
 - assets/img/mandala-a.webp e mandala-b.webp: pôsteres (movimento reduzido e antes do vídeo).
 Mesmo gerador do site da Ana Dias, com as cores da GV. O fundo é o cetim do site, igual ao do CSS, e a borda some numa máscara radial no CSS.
 Uso: python tools/gerar_video.py [--teste]   (--teste só grava quadros em _ref/hero/quadro-*.png)"""
@@ -11,16 +12,16 @@ from PIL import Image
 AQUI = os.path.dirname(os.path.abspath(__file__)); SITE = os.path.dirname(AQUI)
 VID = os.path.join(SITE, 'assets', 'video'); IMG = os.path.join(SITE, 'assets', 'img')
 CONF = os.path.join(SITE, '..', '_ref', 'hero')
-PAPEL = '#eeece8'; CORES = "{tinta: '#121110', cinza: '#6f6a64', verm: '#8e1c1c', preserveDrawingBuffer: true}"; FPS = 30
+PAPEL = '#eeece8'; CORES = "{tinta: '#121110', cinza: '#6f6a64', verm: '#8e1c1c', preserveDrawingBuffer: true}"; FPS = 30; ABRE = 4.2
 
-def pagina(p, lado):
+def pagina(p, lado, formar=0):
     b = p.chromium.launch(channel='msedge', args=['--use-angle=swiftshader', '--enable-unsafe-swiftshader'])
     pg = b.new_page(viewport={'width': lado, 'height': lado})
     bin64 = base64.b64encode(open(os.path.join(SITE, 'assets', 'pontos.bin'), 'rb').read()).decode()
     pg.set_content(f'<body style="margin:0;background:{PAPEL}"><canvas id="c" width="{lado}" height="{lado}"></canvas></body>')
     pg.add_script_tag(path=os.path.join(SITE, 'assets', 'js', 'pontos.js'))
     pg.evaluate("""b64 => { const s = atob(b64), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i);
-        window.T = pontosGL(document.getElementById('c'), u.buffer, """ + CORES + """); }""", bin64)
+        window.T = pontosGL(document.getElementById('c'), u.buffer, """ + CORES[:-1] + f", formar: {formar}}}" + """); }""", bin64)
     return b, pg
 
 def quadro(pg, t, formar=False):
@@ -50,6 +51,15 @@ def main():
         q = round(ciclo * FPS)
         for i in range(q):
             enc.stdin.write(quadro(pg, i / FPS))
+        enc.stdin.close(); enc.wait(); b.close()
+        print(mp4, round(os.path.getsize(mp4) / 1e6, 2), 'MB', q, 'quadros')
+        b, pg = pagina(p, 720, ABRE)
+        mp4 = os.path.join(VID, 'abertura.mp4')
+        enc = subprocess.Popen([imageio_ffmpeg.get_ffmpeg_exe(), '-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', str(FPS), '-c:v', 'png', '-i', '-',
+            '-c:v', 'libx264', '-preset', 'slow', '-crf', '30', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-movflags', '+faststart', '-an', mp4], stdin=subprocess.PIPE)
+        q = round((ABRE + .5) * FPS)
+        for i in range(q):
+            enc.stdin.write(quadro(pg, i / FPS, True))
         enc.stdin.close(); enc.wait(); b.close()
         print(mp4, round(os.path.getsize(mp4) / 1e6, 2), 'MB', q, 'quadros')
 
